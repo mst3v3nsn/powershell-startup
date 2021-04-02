@@ -54,7 +54,7 @@ $WWLabelBackClr           = "yellow"
 #$WWLabelForeClr           = "black"
 $menuItemClr              = "gray"
 
-# target variable for configuration JSON file (lab/ship)
+# target variable for configuration JSON file
 $location = "" 
 if ($targetConfig)
 {
@@ -62,7 +62,7 @@ if ($targetConfig)
 }
 else
 {
-    $location = 'lab' # use 'ship' to target ship_config.json. Defaults to lab.
+    $location = 'lab'
 }
 
 Write-Host ""
@@ -198,25 +198,7 @@ Function checkPrograms($machine)
             {
                 # Display that the process is not running
                 Write-Host "$($exec.Name) not running!" -ForegroundColor "${errClr}"
-                Write-Host ""
-
-                # Check that the virtual machine is not Shaft related
-                If($machine.Tag -Contains "Shaft")
-                {
-                    # Display that the Shaft Server/Client applications must be started separately
-                    Write-Host "*****The Shaft Application must be started within a different application*****" -ForegroundColor "${WWLabelBackClr}"
-                }
-                Else 
-                {
-                    # Display starting process
-                    Write-Host "Starting $($exec.Name)..." -ForegroundColor "${waitMsgClr}"
-                    
-                    # Execute process on target virtual machine
-                    Invoke-Command -Session $session -ScriptBlock {Start-Process -FilePath $Using:exec.ServiceExec -WorkingDirectory $Using:exec.Path -PassThru}
-                    #Start-Sleep -Seconds 3
-                    
-                    Write-Host ""
-                }    
+                Write-Host ""  
             }
         }
     }
